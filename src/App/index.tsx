@@ -86,19 +86,7 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Navigate to="/home/movies" />} />
           <Route
-            path="home/movies"
-            element={
-              <Categories
-                categoryNames={categoryNames}
-                setMovieSelected={setMovieSelected}
-                setMovieId={setMovieId}
-                isFavoriteMovies={isFavoriteMovies}
-                favorites={favorites}
-              />
-            }
-          />
-          <Route
-            path="home/movies/favorites"
+            path="home/movies/*"
             element={
               <Categories
                 categoryNames={categoryNames}
