@@ -34,7 +34,11 @@ function Header({ isFavoriteMovies, setFavoriteMovie }: HeaderProps) {
                 isFavoriteMovies ? headerStyleClasses.favIconActive : ""
               }
             />
-            {/* { isFavoriteMovies && <Navigate to={"favorites"} />} */}
+            {isFavoriteMovies ? (
+              <Navigate to={"home/movies/favorites"} />
+            ) : (
+              <Navigate to="home/movies" />
+            )}
           </Grid>
           <AccountCircleIcon color="primary" fontSize="large" />
         </Grid>

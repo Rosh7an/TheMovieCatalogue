@@ -6,15 +6,15 @@ import { AppComponent } from "./styles";
 import { MovieType } from "../services/movieData";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { fireStore } from "../config";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import Favorite from "../favorite";
 
-type AppProps = {
-  isFavoriteMovies: boolean;
-  setFavoriteMovies: React.Dispatch<React.SetStateAction<boolean>>;
-};
-export default function App({ isFavoriteMovies, setFavoriteMovies }: AppProps) {
+export default function App() {
   const [isMovieSelected, setMovieSelected] = useState(false);
   const [movieId, setMovieId] = useState<number>(667538);
   const [favorites, setFavorites] = useState<number[]>([]);
+  const [isFavoriteMovies, setFavoriteMovies] = useState(false);
+
   console.log(favorites);
 
   const [categoryNames, setCategoryNames] = useState<string[]>([
@@ -69,27 +69,48 @@ export default function App({ isFavoriteMovies, setFavoriteMovies }: AppProps) {
 
   return (
     <AppComponent>
-      <Header
-        isFavoriteMovies={isFavoriteMovies}
-        setFavoriteMovie={setFavoriteMovies}
-      />
-      <div style={{ height: 60 }} />
-      <Movie
-        isMovieSelected={isMovieSelected}
-        setMovieSelected={setMovieSelected}
-        movieId={movieId}
-        favorites={favorites}
-        setFavorites={setFavorites}
-        isFavoriteMovies={isFavoriteMovies}
-      />
-
-      <Categories
-        categoryNames={categoryNames}
-        setMovieSelected={setMovieSelected}
-        setMovieId={setMovieId}
-        isFavoriteMovies={isFavoriteMovies}
-        favorites={favorites}
-      />
+      <BrowserRouter>
+        <Header
+          isFavoriteMovies={isFavoriteMovies}
+          setFavoriteMovie={setFavoriteMovies}
+        />
+        <div style={{ height: 60 }} />
+        <Movie
+          isMovieSelected={isMovieSelected}
+          setMovieSelected={setMovieSelected}
+          movieId={movieId}
+          favorites={favorites}
+          setFavorites={setFavorites}
+          isFavoriteMovies={isFavoriteMovies}
+        />
+        <Routes>
+          <Route path="/" element={<Navigate to="/home/movies" />} />
+          <Route
+            path="home/movies"
+            element={
+              <Categories
+                categoryNames={categoryNames}
+                setMovieSelected={setMovieSelected}
+                setMovieId={setMovieId}
+                isFavoriteMovies={isFavoriteMovies}
+                favorites={favorites}
+              />
+            }
+          />
+          <Route
+            path="home/movies/favorites"
+            element={
+              <Categories
+                categoryNames={categoryNames}
+                setMovieSelected={setMovieSelected}
+                setMovieId={setMovieId}
+                isFavoriteMovies={isFavoriteMovies}
+                favorites={favorites}
+              />
+            }
+          />
+        </Routes>
+      </BrowserRouter>
     </AppComponent>
   );
 }
